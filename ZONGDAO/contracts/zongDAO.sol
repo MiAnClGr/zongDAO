@@ -46,14 +46,6 @@ contract DAO is zongICO(payable(msg.sender)) {
         //availableFunds += msg.value;
     }
 
-    function redeemShares(uint amount) external {
-        require(balances[msg.sender] >= amount);
-        //require(availableFunds >= amount);     
-        balances[msg.sender] -= amount;
-        //availableFunds -= amount;
-        payable(msg.sender).transfer(amount);
-    }
-
     function transferZong(uint amount, address to) external {
         require(balances[msg.sender] >= amount);
         balances[msg.sender] -= amount;
@@ -96,15 +88,5 @@ contract DAO is zongICO(payable(msg.sender)) {
 
     }
 
-    // function withdrawEther(uint amount, address payable to) internal {
-    //     transferEther(amount, to);
-
-//    }
-
-    // function transferEther(uint amount, address payable to) internal {
-    //     require(amount >= availableFunds);
-    //     availableFunds -= amount;
-    //     to.transfer(amount);
-    // }
 
 }
