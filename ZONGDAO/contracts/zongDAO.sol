@@ -6,6 +6,9 @@ import "./ZongICO.sol";
 
 contract DAO is zongICO(payable(msg.sender)) {
 
+
+    /* ZONG enters the metaverse  */
+
     struct Proposal {
         uint id;
         string name;
@@ -16,13 +19,12 @@ contract DAO is zongICO(payable(msg.sender)) {
         bool executed;
     }
 
-    mapping(address => bool) public investors;
-    //mapping(address => uint) public shares;
+    mapping(address => bool) public zongTokenHolder;
     mapping(address => mapping(uint => bool)) public votes;
     mapping(uint => Proposal) public Proposals;
 
     uint public totalShares;
-    //uint public availableFunds;
+    uint public zongInCirculation;
     uint public contributionEnd;
     uint public nextProposalId;
     uint public voteTime;
@@ -40,17 +42,18 @@ contract DAO is zongICO(payable(msg.sender)) {
     }
 
     function contribute() payable external {
-        require(block.timestamp < saleEnd, "Contributions have ended");     
-        investors[msg.sender] = true;
+       // require(block.timestamp < saleEnd, "Contributions have ended");     
+        zongTokenHolder[msg.sender] = true;
         invest();
-        //availableFunds += msg.value;
+        zongInCirculation += msg.value;
     }
+
 
     function transferZong(uint amount, address to) external {
         require(balances[msg.sender] >= amount);
         balances[msg.sender] -= amount;
         balances[to] += amount;
-        investors[to] = true;
+        zongTokenHolder[to] = true;
     }
 
     function createProposal(string memory name /*uint amount, address payable recipient*/) public {
@@ -78,6 +81,14 @@ contract DAO is zongICO(payable(msg.sender)) {
 
     }
 
+    function hasVoted(uint proposalId) public view returns(bool) {
+        if(votes[msg.sender][proposalId]){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     function executeProposal(uint proposalId) view external {
         Proposal storage proposal = Proposals[proposalId];
         //require(block.timestamp >= proposal.end);
@@ -88,5 +99,10 @@ contract DAO is zongICO(payable(msg.sender)) {
 
     }
 
+    function currentTime() public view returns(uint)  {
+        return block.timestamp;
+    }
+
+  
 
 }
