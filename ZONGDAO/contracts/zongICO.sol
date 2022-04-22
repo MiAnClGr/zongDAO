@@ -4,7 +4,7 @@ pragma solidity >=0.5.0 <0.9.0;
 
 import "./zongToken.sol";
 
-contract zongICO is zongToken {
+contract zongICO is zongToken { 
 
     address public admin;
     address payable public deposit;

@@ -2,7 +2,7 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
-import "./ZongICO.sol";
+import "./zongICO.sol";
 
 contract DAO is zongICO(payable(msg.sender)) {
 
@@ -28,16 +28,15 @@ contract DAO is zongICO(payable(msg.sender)) {
     uint public contributionEnd;
     uint public nextProposalId;
     uint public voteTime;
-    uint public quorum;
+    //uint public quorum;
     
     //address public admin;
 
     //add back in to constructor - uint contributionTime, uint _voteTime, uint _quorum
-    constructor(uint _quorum) { 
-        require(_quorum > 0 && _quorum < 5, "Max Contributors reached");    
+    constructor() { 
+        //require(_quorum > 0 && _quorum < 5, "Max Contributors reached");    
         //contributionEnd = block.timestamp + contributionTime;
-        //voteTime = _voteTime;
-        quorum = _quorum;
+        //quorum = _quorum;
         //admin = msg.sender;
     }
 
