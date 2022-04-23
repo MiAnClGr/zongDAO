@@ -19,12 +19,10 @@ contract DAO is zongICO(payable(msg.sender)) {
         bool executed;
     }
 
-    mapping(address => bool) public zongTokenHolder;
+    mapping(address => bool) public zongDaoContributor;
     mapping(address => mapping(uint => bool)) public votes;
     mapping(uint => Proposal) public Proposals;
 
-    uint public totalShares;
-    uint public zongInCirculation;
     uint public contributionEnd;
     uint public nextProposalId;
     uint public voteTime;
@@ -42,17 +40,8 @@ contract DAO is zongICO(payable(msg.sender)) {
 
     function contribute() payable external {
        // require(block.timestamp < saleEnd, "Contributions have ended");     
-        zongTokenHolder[msg.sender] = true;
+        zongDaoContributor[msg.sender] = true;
         invest();
-        zongInCirculation += msg.value;
-    }
-
-
-    function transferZong(uint amount, address to) external {
-        require(balances[msg.sender] >= amount);
-        balances[msg.sender] -= amount;
-        balances[to] += amount;
-        zongTokenHolder[to] = true;
     }
 
     function createProposal(string memory name /*uint amount, address payable recipient*/) public {

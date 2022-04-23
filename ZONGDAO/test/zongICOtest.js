@@ -1,4 +1,5 @@
 const {assert} = require('chai')
+const { BlockList } = require('net')
 const Web3 = require('web3')
 
 
@@ -25,7 +26,7 @@ contract('zongICO', ([founder, customer1, customer2, customer3]) => {
     describe('deployment', async () => {
         // test samples with writing it 
          it('deploys successfuly', async () => {
-             const address = contract.address;
+            const address = contract.address;
             assert.notEqual(address, '')
             assert.notEqual(address, null)
             assert.notEqual(address, undefined)
@@ -36,6 +37,11 @@ contract('zongICO', ([founder, customer1, customer2, customer3]) => {
             const founderBalance = await contract.balanceOf(founder)
             assert.equal(founderBalance, '1000000')
             //assert.equal(founderBalance, tokens('0.000000000001'))     
+        })
+
+        it('returns State.running(1)', async () => {
+            const contractState = await contract.getCurrentState()
+            assert.equal(contractState, '1')
         })
     })
         
@@ -52,6 +58,10 @@ contract('zongICO', ([founder, customer1, customer2, customer3]) => {
             const customer2Balance = await contract.balanceOf(customer2)
             assert.equal(customer2Balance, '1000')
 
+        })
+
+        it('cant invest less than minimum investment', async ()=> {
+            await contract.invest({from: customer1, value:'10000000000000000'}).should.be.rejected;
         })
 
     })
@@ -87,9 +97,22 @@ contract('zongICO', ([founder, customer1, customer2, customer3]) => {
             const allowance1 = await contract.allowance(customer3, customer1)
             assert.equal(allowance1, '3000')
         })
-
-
-
-
     })
+
+    describe('stopping and starting the contract', async () => {
+
+        it('halts the contract', async () => {
+            await contract.halt()
+            const contractState = await contract.getCurrentState()
+            assert.equal(contractState, '3')
+        })
+
+        it('resumes the contract', async () => {
+            await contract.resume()
+            const contractState = await contract.getCurrentState()
+            assert.equal(contractState, '1')
+        })
+    })
+
+    
 })
