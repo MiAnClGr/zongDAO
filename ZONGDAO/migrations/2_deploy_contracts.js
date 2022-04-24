@@ -1,6 +1,6 @@
-const zongDAO = artifacts.require('./zongDAO.sol')
-const zongICO = artifacts.require('./zongICO.sol')
-const zongToken = artifacts.require('./zongToken.sol')
+const zongDAO = artifacts.require('zongDAO')
+const zongICO = artifacts.require('zongICO')
+const zongToken = artifacts.require('zongToken')
 
 module.exports = async function (deployer, network, accounts) {
     
